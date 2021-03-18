@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "trcurios",
+  "version": "${version}",
+
+  "name": "TechReborn Curios",
+  "description": "This mod registers utility items from TechReborn as Curios",
+  "authors": ["YuRaNnNzZZ"],
+
+  "license": "MIT",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": ["ru.ffgs.compat.trcurios.common.TechRebornCuriosMod"],
+    "client": ["ru.ffgs.compat.trcurios.client.TechRebornCuriosClient"]
+  },
+  "mixins": ["trcurios.mixins.json"],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x",
+
+    "techreborn": ">=3.8.1+build.211",
+    "curios": ">=0.0.12-1.16.5"
+  }
+}
