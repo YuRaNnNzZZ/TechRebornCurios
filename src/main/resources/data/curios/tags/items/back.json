@@ -1,7 +1,6 @@
 {
   "replace": "false",
   "values": [
-    "techreborn:cloaking_device",
     "techreborn:lapotronic_orbpack",
     "techreborn:lithium_ion_batpack"
   ]
