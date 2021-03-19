@@ -30,14 +30,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import reborncore.api.items.ArmorRemoveHandler;
 import reborncore.api.items.ArmorTickable;
-import top.theillusivec4.curios.api.CuriosApi;
+import ru.ffgs.compat.trcurios.util.TechCurioUtils;
 import top.theillusivec4.curios.api.type.component.ICurio;
-import top.theillusivec4.curios.api.type.component.ICuriosItemHandler;
-import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
-import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
-import top.theillusivec4.curios.api.type.util.ICuriosHelper;
-
-import java.util.Optional;
 
 public class TRArmorCurio implements ICurio {
     public TRArmorCurio() {
@@ -48,7 +42,7 @@ public class TRArmorCurio implements ICurio {
     public void curioTick(String identifier, int index, LivingEntity livingEntity) {
         if (!(livingEntity instanceof PlayerEntity)) return;
 
-        ItemStack stack = getStackInSlot(identifier, index, livingEntity);
+        ItemStack stack = TechCurioUtils.getStackInSlot(identifier, index, livingEntity);
         if (stack.isEmpty()) return;
 
         Item item = stack.getItem();
@@ -61,25 +55,12 @@ public class TRArmorCurio implements ICurio {
     public void onUnequip(String identifier, int index, LivingEntity livingEntity) {
         if (!(livingEntity instanceof PlayerEntity)) return;
 
-        ItemStack stack = getStackInSlot(identifier, index, livingEntity);
+        ItemStack stack = TechCurioUtils.getStackInSlot(identifier, index, livingEntity);
         if (stack.isEmpty()) return;
 
         Item item = stack.getItem();
         if (item instanceof ArmorRemoveHandler) {
             ((ArmorRemoveHandler) item).onRemoved((PlayerEntity) livingEntity);
         }
-    }
-
-    public static ItemStack getStackInSlot(String identifier, int index, LivingEntity livingEntity) {
-        ICuriosHelper helper = CuriosApi.getCuriosHelper();
-        Optional<ICuriosItemHandler> handler = helper.getCuriosHandler(livingEntity);
-        if (!handler.isPresent()) return ItemStack.EMPTY;
-
-        Optional<ICurioStacksHandler> stacksHandlerOptional = handler.get().getStacksHandler(identifier);
-        if (!stacksHandlerOptional.isPresent()) return ItemStack.EMPTY;
-
-        IDynamicStackHandler stacksHandler = stacksHandlerOptional.get().getStacks();
-
-        return stacksHandler.getStack(index);
     }
 }

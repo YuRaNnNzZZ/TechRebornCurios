@@ -40,7 +40,7 @@ public class TechRebornCuriosMod implements ModInitializer {
 
 		registerCurio(TRContent.LAPOTRONIC_ORBPACK);
 		registerCurio(TRContent.LITHIUM_ION_BATPACK);
-//		registerCurio(TRContent.CLOAKING_DEVICE);
+		registerCurio(TRContent.CLOAKING_DEVICE);
 	}
 
 	private void registerCurio(Item targetItem) {

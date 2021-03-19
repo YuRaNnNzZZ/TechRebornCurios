@@ -22,26 +22,29 @@
  * SOFTWARE.
  */
 
-package ru.ffgs.compat.trcurios.client;
+package ru.ffgs.compat.trcurios.util;
 
-import nerdhub.cardinal.components.api.event.ItemComponentCallbackV2;
-import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.Item;
-import techreborn.init.TRContent;
-import top.theillusivec4.curios.api.CuriosComponent;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.component.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
+import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
+import top.theillusivec4.curios.api.type.util.ICuriosHelper;
 
-public class TechRebornCuriosClient implements ClientModInitializer {
-    @Override
-    public void onInitializeClient() {
-        registerRenderCurio(TRContent.LAPOTRONIC_ORBPACK);
-        registerRenderCurio(TRContent.LITHIUM_ION_BATPACK);
-        registerRenderCurio(TRContent.CLOAKING_DEVICE);
-    }
+import java.util.Optional;
 
-    private void registerRenderCurio(Item targetItem) {
-        if (!(targetItem instanceof ArmorItem)) return;
+public class TechCurioUtils {
+    public static ItemStack getStackInSlot(String identifier, int index, LivingEntity livingEntity) {
+        ICuriosHelper helper = CuriosApi.getCuriosHelper();
+        Optional<ICuriosItemHandler> handler = helper.getCuriosHandler(livingEntity);
+        if (!handler.isPresent()) return ItemStack.EMPTY;
 
-        ItemComponentCallbackV2.event(targetItem).register(((item, itemStack, componentContainer) -> componentContainer.put(CuriosComponent.ITEM_RENDER, new ArmorCurioRender(((ArmorItem) targetItem).getSlotType()))));
+        Optional<ICurioStacksHandler> stacksHandlerOptional = handler.get().getStacksHandler(identifier);
+        if (!stacksHandlerOptional.isPresent()) return ItemStack.EMPTY;
+
+        IDynamicStackHandler stacksHandler = stacksHandlerOptional.get().getStacks();
+
+        return stacksHandler.getStack(index);
     }
 }

@@ -41,13 +41,13 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-import ru.ffgs.compat.trcurios.common.TRArmorCurio;
 import ru.ffgs.compat.trcurios.mixin.ArmorFeatureAccessorMixin;
+import ru.ffgs.compat.trcurios.util.TechCurioUtils;
 import top.theillusivec4.curios.api.type.component.IRenderableCurio;
 
 import java.util.Map;
 
-public class TRArmorCurioRender implements IRenderableCurio {
+public class ArmorCurioRender implements IRenderableCurio {
     ArmorFeatureRenderer armorFeatureRenderer;
     EquipmentSlot slot;
 
@@ -55,7 +55,7 @@ public class TRArmorCurioRender implements IRenderableCurio {
     BipedEntityModel bodyModel = new BipedEntityModel(1.0F);
     BipedEntityModel legsModel = new BipedEntityModel(0.5F);
 
-    public TRArmorCurioRender(EquipmentSlot slot) {
+    public ArmorCurioRender(EquipmentSlot slot) {
         this.slot = slot;
     }
 
@@ -65,7 +65,7 @@ public class TRArmorCurioRender implements IRenderableCurio {
                        LivingEntity livingEntity,
                        float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks,
                        float netHeadYaw, float headPitch) {
-        ItemStack itemStack = TRArmorCurio.getStackInSlot(identifier, index, livingEntity);
+        ItemStack itemStack = TechCurioUtils.getStackInSlot(identifier, index, livingEntity);
         if (itemStack.getItem() instanceof ArmorItem) {
             FeatureRendererContext rendererContext = (FeatureRendererContext) MinecraftClient.getInstance().getEntityRenderDispatcher().getRenderer(livingEntity);
 
